@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>从 Kolmogorov 复杂度到 Martin Löf 随机性检验（上） - FrightenedFox&#039;s home page</title><link rel="manifest" href="/blog/manifest.json"><meta name="application-name" content="FrightenedFox&#039;s home page"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="FrightenedFox&#039;s home page"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Per Martin-Löf, The Definition of Random Sequences, Information and Control, 9, 602-619(1966) 考虑一个在有限字母表中所有字符串的集合。记字符串 \(x &amp;#x3D; \xi_1\xi_2\dots\xi_n\) 的长度 \(l(x) &amp;#x3D; n\)。接下来我们需要考虑的问题是，这个序列有多复杂？ 很显然，直观地讲，"><meta property="og:type" content="blog"><meta property="og:title" content="从 Kolmogorov 复杂度到 Martin Löf 随机性检验（上）"><meta property="og:url" content="http://frightenedfoxcn.github.io/blog/2022/06/27/Kolmogorov-and-Martin-Lof01/"><meta property="og:site_name" content="FrightenedFox&#039;s home page"><meta property="og:description" content="Per Martin-Löf, The Definition of Random Sequences, Information and Control, 9, 602-619(1966) 考虑一个在有限字母表中所有字符串的集合。记字符串 \(x &amp;#x3D; \xi_1\xi_2\dots\xi_n\) 的长度 \(l(x) &amp;#x3D; n\)。接下来我们需要考虑的问题是，这个序列有多复杂？ 很显然，直观地讲，"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://frightenedfoxcn.github.io/blog/img/og_image.png"><meta property="article:published_time" content="2022-06-27T01:26:07.000Z"><meta property="article:modified_time" content="2022-06-27T03:41:37.679Z"><meta property="article:author" content="FrightenedFoxCN"><meta property="article:tag" content="复杂度"><meta property="article:tag" content="概率论"><meta property="article:tag" content="信息论"><meta property="article:tag" content="计算理论"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/blog/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://frightenedfoxcn.github.io/blog/2022/06/27/Kolmogorov-and-Martin-Lof01/"},"headline":"从 Kolmogorov 复杂度到 Martin Löf 随机性检验（上）","image":["http://frightenedfoxcn.github.io/blog/img/og_image.png"],"datePublished":"2022-06-27T01:26:07.000Z","dateModified":"2022-06-27T03:41:37.679Z","author":{"@type":"Person","name":"FrightenedFoxCN"},"publisher":{"@type":"Organization","name":"FrightenedFox's home page","logo":{"@type":"ImageObject","url":{"text":"FrightenedFox"}}},"description":"Per Martin-Löf, The Definition of Random Sequences, Information and Control, 9, 602-619(1966)\r 考虑一个在有限字母表中所有字符串的集合。记字符串 \\(x &#x3D; \\xi_1\\xi_2\\dots\\xi_n\\) 的长度 \\(l(x) &#x3D; n\\)。接下来我们需要考虑的问题是，这个序列有多复杂？\r 很显然，直观地讲，"}</script><link rel="canonical" href="http://frightenedfoxcn.github.io/blog/2022/06/27/Kolmogorov-and-Martin-Lof01/"><link rel="icon" href="/blog/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/blog/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.2.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/blog/">FrightenedFox</a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/blog/">Home</a><a class="navbar-item" href="/blog/archives">Archives</a><a class="navbar-item" href="/blog/categories">Categories</a><a class="navbar-item" href="/blog/tags">Tags</a><a class="navbar-item" href="/blog/about">About</a></div><div class="navbar-end"><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-06-27T01:26:07.000Z" title="2022/6/27 09:26:07">2022-06-27</time>发表</span><span class="level-item"><time dateTime="2022-06-27T03:41:37.679Z" title="2022/6/27 11:41:37">2022-06-27</time>更新</span><span class="level-item"><a class="link-muted" href="/blog/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></span><span class="level-item">13 分钟读完 (大约2010个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">从 Kolmogorov 复杂度到 Martin Löf 随机性检验（上）</h1><div class="content"><p>Per Martin-Löf, <em>The Definition of Random Sequences</em>, Information and Control, 9, 602-619(1966)</p>
+<p>考虑一个在有限字母表中所有字符串的集合。记字符串 <span class="math inline">\(x = \xi_1\xi_2\dots\xi_n\)</span> 的长度 <span class="math inline">\(l(x) = n\)</span>。接下来我们需要考虑的问题是，这个序列有多复杂？</p>
+<p>很显然，直观地讲，一个“随机”（我们很快会回到这一点上来）字符串要比一个有规律的字符串复杂地多。同样很直观地，我们可以把一个字符串的复杂度定义为某种“最简单的描述方法的长度”，Kolmogorov 算术复杂度就是从这个视角出发做出的形式化定义。</p>
+<span id="more"></span>
+<h1 id="描述方法和-kolmogorov-solomonoff-定理">“描述方法”和 Kolmogorov-Solomonoff 定理</h1>
+<p>接下来我们需要反思，“描述方法”应该如何被形式化地定义出来？既然本文的 tag 中带有计算理论，很自然的一种想法就是，“描述方法”就是一种算法。</p>
+<p>在这里，我们使用“算法”这个概念来表达一种从一个有限二进制序列到一个有限字母表上的单子的映射。算法概念的更精确的形式化定义可以采用递归论的定义模式或者其他等价的形式（本文中将不再展开），这并不影响后文的探讨。</p>
+<p>记 <span class="math inline">\(A\)</span> 为一种算法，<span class="math inline">\(A(p) = x\)</span>，<span class="math inline">\(p\)</span> 为一个有限二进制串，<span class="math inline">\(x\)</span> 为一个有限字母表上的字符串，我们称 <span class="math inline">\(p\)</span> 是在算法 <span class="math inline">\(A\)</span> 下对 <span class="math inline">\(x\)</span> 的描述。接下来，延续我们前面的直观认识，我们可以定义相对于算法 <span class="math inline">\(A\)</span> 字符串 <span class="math inline">\(x\)</span> 的复杂度为：</p>
+<p><span class="math display">\[
+K_A(x) = \min\limits_{A(p) = x}(l(p))
+\]</span></p>
+<p>那么，很自然的一个问题是，是否一定存在这样的二进制串 <span class="math inline">\(p\)</span> 来对任意字符串 <span class="math inline">\(x\)</span> 做出描述？答案是否定的。只要考虑一个平凡的算法 <span class="math inline">\(A_0\)</span>，它将任意二进制串 <span class="math inline">\(p\)</span> 都映射到字符串 <span class="math inline">\(x_0\)</span>，那么，其他的字符串就都不能在这个算法下做出描述。因此，为了定义的严谨性，我们需要补充说明：</p>
+<p><span class="math display">\[
+K_A(x) = + \infty, \mathrm{if}\ \forall p, A(p) \neq x
+\]</span></p>
+<p>现在，我们剩下的一个问题就是，我们不能拜托算法 <span class="math inline">\(A\)</span> 对我们的定义的限制。我们在考虑一个序列的复杂度时，很显然不是要考虑一个字符串“在某种描述方法下”的复杂度，我们需要使得它成为一个只与字符串 <span class="math inline">\(x\)</span> 有关的数。为了实现这个定义，就需要引入 Kolmogorov-Solomonoff 定理：</p>
+<p>存在一个算法 <span class="math inline">\(A\)</span>，使得对于任意算法 <span class="math inline">\(B\)</span>， <span class="math display">\[
+K_A(x) \leqslant K_B(x) + c
+\]</span> 其中 <span class="math inline">\(c\)</span> 为一常数，且其只与 <span class="math inline">\(A\)</span> 和 <span class="math inline">\(B\)</span> 有关。</p>
+<p>这个算法在 Kolmogorov 的著作中被称为渐进最优的（asymptotically optimal），在 Solomonoff 的著作中被称为通用的（universial），上述定理的证明如果我不鸽的话会丢进本文的附录或者其他文章里。总之，现在我们已经有了一个最好的算法来讨论如何描述字符串 <span class="math inline">\(x\)</span>，于是，我们就可以定义这个字符串的复杂度 <span class="math inline">\(K(x) = K_A(x)\)</span>，称其为 Kolmogorov 复杂度，或者简单地称为复杂度。</p>
+<p>同样地，我们可以引入条件复杂度的概念。考虑一个两变量的算法 <span class="math inline">\(A(p, x)\)</span>，<span class="math inline">\(x\)</span> 为一个有限字母表上的字符串，若 <span class="math inline">\(A(p, x) = y\)</span>，则我们将其称为在 <span class="math inline">\(x\)</span> 的条件下对（可能不同于 <span class="math inline">\(x\)</span> 的）字母表上的字符串 <span class="math inline">\(y\)</span> 的描述。称在 <span class="math inline">\(x\)</span> 的条件下相对于算法 <span class="math inline">\(A\)</span> 的 <span class="math inline">\(y\)</span> 的复杂度为：</p>
+<p><span class="math display">\[
+K_A(y \vert x) = \min\limits_{A(p, x) = y}(l(p))
+\]</span></p>
+<p>这个定义也是很自然的，同样与上面的讨论和我们的直观感受匹配。幸运地是，亲爱的 Kolmogorov 先生同样给出了一个与上面的定理相对应的定理：</p>
+<p>存在一个算法 <span class="math inline">\(A\)</span>，使得对于任意算法 <span class="math inline">\(B\)</span>， <span class="math display">\[
+K_A(y \vert x) \leqslant K_B(y \vert x) + c
+\]</span> 其中 <span class="math inline">\(c\)</span> 为一常数，且其只与 <span class="math inline">\(A\)</span> 和 <span class="math inline">\(B\)</span> 有关。</p>
+<p>因此，我们也记 <span class="math inline">\(K(y\vert x) = K_A(y \vert x)\)</span>，并称其为在 <span class="math inline">\(x\)</span> 的条件下 <span class="math inline">\(y\)</span> 的条件复杂度。</p>
+<p>很直观的，对于任意长度为 <span class="math inline">\(n\)</span> 的二进制串 <span class="math inline">\(x\)</span>，都有 <span class="math display">\[
+K(x \vert n) \leqslant n + c
+\]</span> 其中 <span class="math inline">\(n\)</span> 是用于描述这个字符串所用的最多比特数，在最坏情况下，我们需要将整个串都硬编码到代码当中，那么当然需要 <span class="math inline">\(n\)</span> 的长度。而 <span class="math inline">\(c\)</span> 则是机器相关的常数。</p>
+<p>同时，我们可以尝试给出一个下界，满足 <span class="math display">\[
+K(\xi_1\xi_2\dots\xi_n \vert n) \geqslant n - c
+\]</span> 的序列一共有 <span class="math inline">\((1-2^{-c})2^n\)</span> 个。这个结论也很平凡，留给读者自证。</p>
+<p>于是，我们发现，当 <span class="math inline">\(n\)</span> 很大的时候，会有很多字符串的复杂度的渐进上界是在 <span class="math inline">\(O(n)\)</span> 这个最大的级别的。Kolmogorov 指出，这可以使我们形式化地定义一个字符串的随机性。</p>
+<h1 id="一些评述">一些评述</h1>
+<p>看起来，对于二元算法的定义事实上意义不是很大，因为 <span class="math inline">\(n\)</span> 同样可以以 <span class="math inline">\(\log n\)</span> 的复杂度编写到程序之中，这对于我们的结果并没有影响。事实上，很多较现代的论文提供了另外一种定义形式，例如 Peter D. Grünwald and Paul M. B. Vitányi, Algorithmic Information Theory 中给出的定义是：</p>
+<p><span class="math display">\[
+K(x) = \min\limits_{y, p: p(y) = x}(l(p) + l(y))
+\]</span></p>
+<p>这种定义形式似乎更加符合我们的预期。另外，也将一个对象的 Kolmogorov 编码定义为 <span class="math inline">\(E*(x)\)</span>，是最短的能够打印 <span class="math inline">\(x\)</span> 然后停下的代码。</p>
+<p>在这种定义形式下，我们就可以给出三种分类：</p>
+<ul>
+<li><p>简单的对象：<span class="math inline">\(O(\log n)\)</span>，其原因已经在前面解释过了，因为 <span class="math inline">\(n\)</span> 需要被硬编码进去</p></li>
+<li><p>完全偶然对象（completely random objects）：<span class="math inline">\(n + O(\log n)\)</span>，也是显然的</p></li>
+<li><p>随机对象（stochastic objects）：<span class="math inline">\(\alpha n + o(n)\)</span> 如果 <span class="math inline">\(x_i\)</span> 是一个随机变量 <span class="math inline">\(X_i\)</span> 的实现，其分布为 <span class="math inline">\(P\)</span>，则这个对象是随机的，其中 <span class="math inline">\(\alpha &lt; 1\)</span>。比较常见的例子是二项分布，其 <span class="math inline">\(\alpha = H(p)\)</span> 为二值熵（binary entrophy） <span class="math display">\[
+H(p) = -p\log p - (1-p) \log(1-p) 
+\]</span> 随机对象的情形可以类比于扔一个有缺陷的硬币，硬币的缺陷使得这个序列不再成为完全随机的，当然，很显然，<span class="math inline">\(p = 0.5\)</span> 时， <span class="math inline">\(H(p) = 1\)</span>，序列还是完全偶然的。</p></li>
+</ul>
+<p>另一个很遗憾的问题是，<span class="math inline">\(K(x)\)</span> 不是可计算的，在 [Li and Vitányi, 1997] 中，他们表明它是上半可计算的（upper semicomputable），或者简单地理解就是，它是可以被近似的，但近似算法很慢，且不能确定其终点。但是，也有一些方式来解决这个问题，比如通用编码（[Cover and Thomas, 1991]），最小描述长度原理（MDL, [Solomonoff, 1997]）等方式的近似。</p>
+<p>Blum 和 Burgin 的公理系统对于这个领域来说也是相当重要的，他们给出了关于这些性质的普遍描述，如果不鸽的话大概也会专门开一篇文章来介绍他们的成果，嗯，如果不鸽的话。</p>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/blog/tags/%E5%A4%8D%E6%9D%82%E5%BA%A6/">复杂度</a><a class="link-muted mr-2" rel="tag" href="/blog/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/">概率论</a><a class="link-muted mr-2" rel="tag" href="/blog/tags/%E4%BF%A1%E6%81%AF%E8%AE%BA/">信息论</a><a class="link-muted mr-2" rel="tag" href="/blog/tags/%E8%AE%A1%E7%AE%97%E7%90%86%E8%AE%BA/">计算理论</a></div><!--!--></article></div><!--!--><!--!--></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/blog/img/avatar.jpg" alt="FrightenedFox"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">FrightenedFox</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Zhejiang, China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/blog/archives"><p class="title">1</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/blog/categories"><p class="title">1</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/blog/tags"><p class="title">4</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/FrightenedFoxCN" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/FrightenedFoxCN"><i class="fab fa-github"></i></a></div></div></div><!--!--><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/blog/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"><span class="level-start"><span class="level-item">论文笔记</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-06-27T01:26:07.000Z">2022-06-27</time></p><p class="title"><a href="/blog/2022/06/27/Kolmogorov-and-Martin-Lof01/">从 Kolmogorov 复杂度到 Martin Löf 随机性检验（上）</a></p><p class="categories"><a href="/blog/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/blog/archives/2022/06/"><span class="level-start"><span class="level-item">六月 2022</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/blog/tags/%E4%BF%A1%E6%81%AF%E8%AE%BA/"><span class="tag">信息论</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">复杂度</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/"><span class="tag">概率论</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/%E8%AE%A1%E7%AE%97%E7%90%86%E8%AE%BA/"><span class="tag">计算理论</span><span class="tag">1</span></a></div></div></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/blog/">FrightenedFox</a><p class="is-size-7"><span>&copy; 2022 FrightenedFoxCN</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/blog/js/column.js"></script><script src="/blog/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/blog/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/blog/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/blog/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/blog/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
